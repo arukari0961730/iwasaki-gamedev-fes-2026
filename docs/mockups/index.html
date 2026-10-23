@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>デザイン見本</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@500;700&family=Press+Start+2P&family=DotGothic16&family=Yusei+Magic&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #1c1c1c; color: #eee; font-family: "Zen Kaku Gothic New", sans-serif; }
+  .label {
+    max-width: 1200px; margin: 48px auto 12px; padding: 0 16px;
+    font-size: 15px; color: #aaa; letter-spacing: .05em;
+  }
+  .label b { color: #fff; font-size: 22px; margin-right: 12px; }
+  .frame {
+    max-width: 1200px; margin: 0 auto; border-radius: 14px; overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,.6);
+  }
+  .page { padding: 28px 32px 36px; position: relative; overflow: hidden; }
+  .hero { display: grid; grid-template-columns: 1.35fr 1fr; gap: 28px; align-items: center; }
+  .hero img, .card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
+  .desc { white-space: pre-line; line-height: 1.7; margin: 0; }
+  .top3 { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .top3 li { display: grid; grid-template-columns: 56px 1fr auto; align-items: center; gap: 12px; padding: 10px 14px; }
+  .dots { display: flex; gap: 8px; justify-content: center; margin-top: 18px; }
+  .dots span { width: 10px; height: 10px; border-radius: 50%; }
+  .list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 32px; }
+  .card h3 { margin: 10px 0 4px; }
+  .card p { margin: 0; font-size: 13px; white-space: pre-line; line-height: 1.6; }
+  .badge { display: inline-block; font-size: 11px; padding: 2px 8px; margin-top: 8px; }
+  @media (max-width: 760px) {
+    .hero, .list { grid-template-columns: 1fr; }
+    .page { padding: 20px 16px 28px; }
+  }
+
+  /* ========== 1＋2. ネオン × アーケード ========== */
+  .combo .page {
+    background:
+      radial-gradient(60% 80% at 0% 0%, rgba(255,0,170,.28), transparent 60%),
+      radial-gradient(50% 70% at 100% 100%, rgba(0,229,255,.22), transparent 60%),
+      #07051a;
+    color: #e9e6ff;
+  }
+  .combo .page::before {
+    content: ""; position: absolute; inset: auto 0 0 0; height: 45%;
+    background:
+      linear-gradient(transparent 0 calc(100% - 1px), rgba(255,0,170,.35) 0) 0 0 / 100% 36px,
+      linear-gradient(90deg, transparent 0 calc(100% - 1px), rgba(0,229,255,.25) 0) 0 0 / 60px 100%;
+    transform: perspective(500px) rotateX(60deg); transform-origin: bottom; opacity: .45; pointer-events: none;
+  }
+  .combo .page::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: repeating-linear-gradient(transparent 0 2px, rgba(0,0,0,.18) 2px 4px);
+  }
+  .combo header { display: flex; justify-content: space-between; font-family: "Press Start 2P"; font-size: 12px; margin-bottom: 20px; }
+  .combo header .p1 { color: #ff2fb9; text-shadow: 0 0 8px #ff2fb9; }
+  .combo header .hi { color: #ffd84d; text-shadow: 0 0 8px #ffd84d; }
+  .combo .blink { animation: blink 1s steps(1) infinite; color: #00e5ff; text-shadow: 0 0 8px #00e5ff; }
+  .combo .hero img { border: 2px solid #ff2fb9; box-shadow: 0 0 18px #ff2fb9, inset 0 0 12px #ff2fb9; border-radius: 6px; }
+  .combo h2 { font-family: "Dela Gothic One"; font-size: 40px; margin: 0 0 8px; color: #fff; text-shadow: 0 0 6px #ff2fb9, 0 0 18px #ff2fb9, 0 0 36px #ff2fb9; }
+  .combo .desc { color: #c9c3ff; margin-bottom: 16px; }
+  .combo .hs { font-family: "Press Start 2P"; font-size: 13px; color: #00e5ff; text-shadow: 0 0 8px #00e5ff; margin: 0 0 12px; }
+  .combo .top3 li { background: rgba(255,255,255,.04); border: 1px solid rgba(0,229,255,.4); border-radius: 8px; }
+  .combo .rank, .combo .score { font-family: "Press Start 2P"; font-size: 14px; }
+  .combo li:nth-child(1) { border-color: #ffd84d; box-shadow: 0 0 12px rgba(255,216,77,.45); }
+  .combo li:nth-child(1) .rank { color: #ffd84d; text-shadow: 0 0 10px #ffd84d; }
+  .combo li:nth-child(2) .rank { color: #dfe7ff; text-shadow: 0 0 10px #dfe7ff; }
+  .combo li:nth-child(3) .rank { color: #ff9b5c; text-shadow: 0 0 10px #ff9b5c; }
+  .combo .score { color: #00e5ff; text-shadow: 0 0 8px #00e5ff; font-size: 12px; }
+  .combo .dots span { background: #3a2f6b; } .combo .dots span:first-child { background: #ff2fb9; box-shadow: 0 0 8px #ff2fb9; }
+  .combo .card { background: rgba(255,255,255,.04); border: 1px solid rgba(255,47,185,.35); border-radius: 10px; overflow: hidden; padding-bottom: 14px; }
+  .combo .card h3, .combo .card p, .combo .card .badge { margin-left: 12px; margin-right: 12px; }
+  .combo .card h3 { font-family: "Dela Gothic One"; font-weight: 400; color: #fff; }
+  .combo .badge { font-family: "Press Start 2P"; font-size: 9px; padding: 5px 8px; color: #07051a; background: #00e5ff; box-shadow: 0 0 8px #00e5ff; }
+
+  /* ========== 1. ネオン・サイバー ========== */
+  .neon .page {
+    background:
+      radial-gradient(60% 80% at 10% 0%, rgba(255,0,170,.25), transparent 60%),
+      radial-gradient(50% 70% at 100% 100%, rgba(0,229,255,.22), transparent 60%),
+      #07051a;
+    color: #e9e6ff;
+  }
+  .neon .page::before {
+    content: ""; position: absolute; inset: auto 0 0 0; height: 45%;
+    background:
+      linear-gradient(transparent 0 calc(100% - 1px), rgba(255,0,170,.35) 0) 0 0 / 100% 36px,
+      linear-gradient(90deg, transparent 0 calc(100% - 1px), rgba(0,229,255,.25) 0) 0 0 / 60px 100%;
+    transform: perspective(500px) rotateX(60deg); transform-origin: bottom; opacity: .5; pointer-events: none;
+  }
+  .neon header { font-family: Orbitron, sans-serif; font-weight: 900; letter-spacing: .15em; font-size: 14px; color: #00e5ff; text-shadow: 0 0 8px #00e5ff; margin-bottom: 18px; }
+  .neon .hero img { border: 2px solid #ff2fb9; box-shadow: 0 0 18px #ff2fb9, inset 0 0 12px #ff2fb9; border-radius: 6px; }
+  .neon h2 { font-family: "Dela Gothic One"; font-size: 40px; margin: 0 0 8px; color: #fff; text-shadow: 0 0 6px #ff2fb9, 0 0 18px #ff2fb9, 0 0 36px #ff2fb9; }
+  .neon .desc { color: #c9c3ff; margin-bottom: 18px; }
+  .neon .top3 li { background: rgba(255,255,255,.04); border: 1px solid rgba(0,229,255,.4); border-radius: 8px; }
+  .neon .rank { font-family: Orbitron; font-weight: 900; font-size: 22px; }
+  .neon li:nth-child(1) .rank { color: #ffd84d; text-shadow: 0 0 10px #ffd84d; }
+  .neon li:nth-child(2) .rank { color: #dfe7ff; text-shadow: 0 0 10px #dfe7ff; }
+  .neon li:nth-child(3) .rank { color: #ff9b5c; text-shadow: 0 0 10px #ff9b5c; }
+  .neon .score { font-family: Orbitron; color: #00e5ff; text-shadow: 0 0 8px #00e5ff; }
+  .neon .dots span { background: #3a2f6b; } .neon .dots span:first-child { background: #ff2fb9; box-shadow: 0 0 8px #ff2fb9; }
+  .neon .card { background: rgba(255,255,255,.04); border: 1px solid rgba(255,47,185,.35); border-radius: 10px; overflow: hidden; position: relative; }
+  .neon .card h3, .neon .card p, .neon .card .badge { margin-left: 12px; margin-right: 12px; }
+  .neon .card { padding-bottom: 14px; }
+  .neon .card h3 { font-family: "Dela Gothic One"; font-weight: 400; color: #fff; }
+  .neon .badge { color: #00e5ff; border: 1px solid #00e5ff; border-radius: 99px; box-shadow: 0 0 6px #00e5ff; }
+
+  /* ========== 2. ゲームセンター（アーケード） ========== */
+  .arcade .page { background: #000; color: #fff; font-family: DotGothic16, sans-serif; }
+  .arcade .page::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: repeating-linear-gradient(transparent 0 2px, rgba(0,0,0,.35) 2px 4px);
+  }
+  .arcade header { display: flex; justify-content: space-between; font-family: "Press Start 2P"; font-size: 12px; margin-bottom: 20px; }
+  .arcade header .p1 { color: #ff3b3b; } .arcade header .hi { color: #ffe600; }
+  .arcade .blink { animation: blink 1s steps(1) infinite; color: #00f0ff; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .arcade .hero img { border: 6px solid #fff; outline: 6px solid #ff3b3b; image-rendering: pixelated; }
+  .arcade h2 { font-family: "Press Start 2P"; font-size: 26px; margin: 0 0 12px; color: #ffe600; text-shadow: 4px 4px 0 #ff3b3b; line-height: 1.4; }
+  .arcade .desc { margin-bottom: 16px; }
+  .arcade .hs { font-family: "Press Start 2P"; font-size: 13px; color: #00f0ff; margin: 0 0 10px; }
+  .arcade .top3 li { border-bottom: 2px dashed #444; padding: 8px 0; }
+  .arcade .rank { font-family: "Press Start 2P"; font-size: 14px; }
+  .arcade li:nth-child(1) { color: #ffe600; } .arcade li:nth-child(2) { color: #ddd; } .arcade li:nth-child(3) { color: #ff9b3b; }
+  .arcade .score { font-family: "Press Start 2P"; font-size: 13px; }
+  .arcade .dots span { border-radius: 0; background: #333; } .arcade .dots span:first-child { background: #ffe600; }
+  .arcade .card { border: 4px solid #fff; padding: 8px; background: #111; }
+  .arcade .card h3 { color: #ffe600; font-weight: 400; }
+  .arcade .badge { background: #ff3b3b; color: #fff; font-family: "Press Start 2P"; font-size: 9px; padding: 5px 7px; }
+
+  /* ========== 3. レトロゲーム（ドット絵） ========== */
+  .retro .page { background: #5c94fc; color: #fff; font-family: DotGothic16, sans-serif; }
+  .retro .page::before {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 40px;
+    background: repeating-linear-gradient(90deg, #c84c0c 0 30px, #fc9838 30px 32px) , #c84c0c;
+    border-top: 4px solid #000;
+  }
+  .retro .page { padding-bottom: 76px; }
+  .retro header { font-size: 20px; text-shadow: 3px 3px 0 #000; margin-bottom: 18px; }
+  .retro .win { background: #000; border: 4px solid #fff; outline: 4px solid #000; border-radius: 6px; padding: 16px 18px; }
+  .retro .hero img { border: 4px solid #000; image-rendering: pixelated; }
+  .retro h2 { font-size: 30px; font-weight: 400; margin: 0 0 8px; }
+  .retro .desc { margin-bottom: 14px; }
+  .retro .top3 li { padding: 4px 0; }
+  .retro .rank::before { content: "▶ "; color: transparent; }
+  .retro li:first-child .rank::before { color: #fff; }
+  .retro li:nth-child(1) .rank { color: #fcd000; }
+  .retro .dots span { border-radius: 0; background: #2038ec; border: 2px solid #000; } .retro .dots span:first-child { background: #fcd000; }
+  .retro .card { background: #000; border: 4px solid #fff; outline: 4px solid #000; border-radius: 6px; padding: 10px; }
+  .retro .card h3 { font-weight: 400; color: #fcd000; }
+  .retro .badge { border: 2px solid #fff; }
+
+  /* ========== 4. お祭り・文化祭 ========== */
+  .matsuri .page {
+    color: #fff4e0;
+    background:
+      radial-gradient(circle at 50% 100%, transparent 18px, rgba(255,255,255,.06) 19px 21px, transparent 22px) 0 0 / 48px 24px,
+      radial-gradient(circle at 50% 100%, transparent 18px, rgba(255,255,255,.06) 19px 21px, transparent 22px) 24px 12px / 48px 24px,
+      linear-gradient(#1c1440, #3a0f2e);
+  }
+  .matsuri .lanterns { display: flex; justify-content: space-around; margin: -28px -32px 18px; padding-top: 6px; border-top: 3px solid #2a1a10; }
+  .matsuri .lanterns span {
+    width: 34px; height: 46px; border-radius: 45%; position: relative;
+    background: radial-gradient(circle at 50% 40%, #ffd27a, #e8342b 60%, #a3121b);
+    box-shadow: 0 0 22px rgba(255,140,60,.8);
+  }
+  .matsuri .lanterns span::before, .matsuri .lanterns span::after { content: ""; position: absolute; left: 8px; right: 8px; height: 5px; background: #222; }
+  .matsuri .lanterns span::before { top: -3px; } .matsuri .lanterns span::after { bottom: -3px; }
+  .matsuri header { font-family: "Yusei Magic"; font-size: 22px; color: #ffd27a; margin-bottom: 16px; }
+  .matsuri .hero img { border: 6px solid #f4c24a; border-radius: 10px; box-shadow: 0 0 0 4px #a3121b; }
+  .matsuri h2 { font-family: "Dela Gothic One"; font-size: 38px; margin: 0 0 8px; color: #fff; -webkit-text-stroke: 1px #a3121b; text-shadow: 3px 3px 0 #e8342b; }
+  .matsuri .desc { margin-bottom: 16px; }
+  .matsuri .top3 li { background: rgba(255,255,255,.06); border-radius: 10px; border-left: 6px solid; }
+  .matsuri li:nth-child(1) { border-color: #f4c24a; } .matsuri li:nth-child(2) { border-color: #d9d9d9; } .matsuri li:nth-child(3) { border-color: #d0884a; }
+  .matsuri .rank { font-family: "Dela Gothic One"; font-size: 20px; color: #ffd27a; }
+  .matsuri .score { font-family: "Dela Gothic One"; }
+  .matsuri .dots span { background: rgba(255,255,255,.25); } .matsuri .dots span:first-child { background: #e8342b; }
+  .matsuri .card { background: #fff4e0; color: #3a0f2e; border-radius: 12px; overflow: hidden; padding-bottom: 14px; }
+  .matsuri .card h3, .matsuri .card p, .matsuri .card .badge { margin-left: 12px; margin-right: 12px; }
+  .matsuri .card h3 { font-family: "Dela Gothic One"; font-weight: 400; color: #a3121b; }
+  .matsuri .badge { background: #e8342b; color: #fff; border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<template id="tpl">
+  <div class="frame"><div class="page">
+    <div class="lanterns" hidden><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    <header></header>
+    <section class="hero">
+      <img src="../../public/images/games/warp-room.webp" alt="">
+      <div>
+        <div class="win">
+          <h2>WarpRoom!</h2>
+          <p class="desc">ワープし続けるあなたのやることは5秒耐えるだけ
+ギミック満載の部屋から生き残り続けろ！！</p>
+          <p class="hs" hidden>HIGH SCORE</p>
+          <ol class="top3">
+            <li><span class="rank">1st</span><span>たろう</span><span class="score">32部屋</span></li>
+            <li><span class="rank">2nd</span><span>はなこ</span><span class="score">27部屋</span></li>
+            <li><span class="rank">3rd</span><span>ゆうき</span><span class="score">21部屋</span></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+    <div class="dots"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    <section class="list">
+      <div class="card"><img src="../../public/images/games/dungeon-attack.webp" alt=""><h3>ダンジョンアタック</h3><p>シューティング＋コマンドのバトル！
+ダンジョンの最奥を目指せ！！</p></div>
+      <div class="card"><img src="../../public/images/games/iwafes-ranker.webp" alt=""><h3>いわふぇすランカー</h3><p>連続してくるミニゲームをひたすらこなしていけ！</p><span class="badge">ランキングあり</span></div>
+      <div class="card"><img src="../../public/images/games/kusoge-next.webp" alt=""><h3>くそげーネクスト</h3><p>昨年1番人気のくそげーがパワーアップして帰ってきた！</p><span class="badge">ランキングあり</span></div>
+    </section>
+  </div></div>
+</template>
+
+<div id="root"></div>
+
+<script>
+  const themes = [
+    { cls: "combo",   title: "★ 1＋2 ネオン × アーケード",   note: "ネオンの光る見た目に、HIGH SCORE 表示・点滅・走査線を足したもの", header: '<span class="p1">1UP</span><span class="blink">INSERT COIN</span><span class="hi">HI-SCORE</span>' },
+    { cls: "neon",   title: "1. ネオン・サイバー系",        note: "暗い背景に光る文字。夜のゲームセンター",   header: "GAMEDEV CIRCLE // FES 2026" },
+    { cls: "arcade",  title: "2. ゲームセンター（アーケード）風", note: "HIGH SCORE 表示・点滅・走査線",          header: '<span class="p1">1UP</span><span class="blink">INSERT COIN</span><span class="hi">HI-SCORE</span>' },
+    { cls: "retro",   title: "3. レトロゲーム（ドット絵）風",   note: "ファミコン風のウィンドウと色数の少ない配色", header: "ゲームかいはつサークル　ぶんかさい2026" },
+    { cls: "matsuri", title: "4. お祭り・文化祭風",         note: "提灯・青海波・赤と金",                  header: "ゲーム開発サークル 文化祭2026" },
+  ];
+  const tpl = document.getElementById("tpl");
+  const root = document.getElementById("root");
+  for (const t of themes) {
+    const wrap = document.createElement("div");
+    wrap.className = t.cls;
+    wrap.innerHTML = `<p class="label"><b>${t.title}</b>${t.note}</p>`;
+    const node = tpl.content.cloneNode(true);
+    node.querySelector("header").innerHTML = t.header;
+    if (t.cls === "matsuri") node.querySelector(".lanterns").hidden = false;
+    if (t.cls === "arcade" || t.cls === "combo") {
+      node.querySelector(".hs").hidden = false;
+      node.querySelectorAll(".rank").forEach((r, i) => r.textContent = ["1ST", "2ND", "3RD"][i]);
+    }
+    if (t.cls === "retro") node.querySelectorAll(".rank").forEach((r, i) => r.textContent = ["1い", "2い", "3い"][i]);
+    if (t.cls === "matsuri") node.querySelectorAll(".rank").forEach((r, i) => r.textContent = ["一位", "二位", "三位"][i]);
+    wrap.appendChild(node);
+    root.appendChild(wrap);
+  }
+</script>
+</body>
+</html>

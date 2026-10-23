@@ -1,0 +1,58 @@
+rules_version = '2';
+
+// Firestore のセキュリティルール。
+// このサイトには自分のサーバーがなく、画面から直接データベースにつながる。
+// そのため、ここが「誰が何を読み書きできるか」を決める唯一の門番になる。
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // 管理者（Authentication で登録した自分のアカウント）かどうか
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.uid == "x2uvaQZtOub4lIAFoJUhPIX05ev1";
+    }
+
+    // スコアは整数で、現実的な範囲に収まっていること
+    function validScore(score) {
+      return score is int && score >= 0 && score <= 999999999;
+    }
+
+    // games/{ゲームID}/scores/{プレイヤー名}
+    match /games/{gameId}/scores/{playerName} {
+
+      // 1件だけの読み込み：誰でもOK（登録時に「前の記録より良いか」を確かめるため）
+      allow get: if true;
+
+      // 一覧の読み込み：非表示にされた記録は管理者しか見られない
+      // （画面側は必ず hidden == false の条件付きで読み込む）
+      allow list: if isAdmin() || resource.data.hidden == false;
+
+      // 新規登録：誰でもできるが、形式が正しいときだけ
+      allow create: if isAdmin() || (
+        request.resource.data.keys().hasOnly(["gameId", "name", "score", "achievedAt", "hidden"])
+        && request.resource.data.keys().hasAll(["gameId", "name", "score", "achievedAt", "hidden"])
+        && request.resource.data.gameId == gameId
+        && request.resource.data.name == playerName          // 文書のIDと名前が一致していること
+        && request.resource.data.name is string
+        && request.resource.data.name.size() >= 1
+        && request.resource.data.name.size() <= 12
+        && validScore(request.resource.data.score)
+        && request.resource.data.achievedAt == request.time  // 日時はサーバーの時刻だけを受け付ける
+        && request.resource.data.hidden == false
+      );
+
+      // 上書き：スコアと日時だけを、前より良いときだけ変えられる
+      // ※ 今のランキング対象ゲームはすべて「大きいほど上位」なので、> で比べている。
+      //   「小さいほど上位」のゲームを追加するときは、ここを見直す必要がある。
+      allow update: if isAdmin() || (
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(["score", "achievedAt"])
+        && validScore(request.resource.data.score)
+        && request.resource.data.score > resource.data.score
+        && request.resource.data.achievedAt == request.time
+      );
+
+      // 削除：管理者だけ（名前の変更で使う。普段は「非表示」で対応する）
+      allow delete: if isAdmin();
+    }
+  }
+}

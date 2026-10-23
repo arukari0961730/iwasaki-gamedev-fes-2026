@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ゲーム開発サークル 文化祭2026</title>
+  <meta name="description" content="ゲーム開発サークルの文化祭展示。展示ゲームの紹介とハイスコアランキング。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="wrap">
+    <header class="site-header">
+      <a href="/">1UP</a>
+      <span class="blink">INSERT COIN</span>
+      <span class="hi">HI-SCORE</span>
+    </header>
+
+    <h1 class="site-title">GAMEDEV CIRCLE<br>FES 2026</h1>
+
+    <section class="carousel" id="carousel" aria-label="ランキングのあるゲーム"></section>
+
+    <h2 class="section-title">GAME LIST</h2>
+    <section class="game-list" id="game-list"></section>
+  </div>
+
+  <script type="module">
+    import { loadGames, rankingGames, escapeHtml, imageUrl } from "/js/games.js";
+    import { mountCarousel } from "/js/carousel.js";
+
+    const games = await loadGames();
+
+    mountCarousel(document.getElementById("carousel"), rankingGames(games));
+
+    // ゲーム一覧：ランキングのあるゲームはカード全体をランキングページへのリンクにする
+    document.getElementById("game-list").innerHTML = games.map((g) => {
+      const body = `
+        <img class="shot" src="${imageUrl(g)}" alt="${escapeHtml(g.name)} のゲーム画面" loading="lazy">
+        <h3>${escapeHtml(g.name)}</h3>
+        <p>${escapeHtml(g.description)}</p>
+        ${g.ranking.enabled ? `<span class="badge">RANKING</span>` : ""}`;
+      return g.ranking.enabled
+        ? `<a class="card" href="/ranking?game=${g.id}">${body}</a>`
+        : `<div class="card">${body}</div>`;
+    }).join("");
+  </script>
+</body>
+</html>

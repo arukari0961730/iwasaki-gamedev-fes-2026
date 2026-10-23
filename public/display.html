@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>モニター表示 | ゲーム開発サークル 文化祭2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<!-- 会場のモニター用。トップページの注目エリアだけを、画面いっぱいに大きく表示する -->
+<body class="display">
+  <div class="wrap">
+    <header class="site-header">
+      <span>GAMEDEV CIRCLE FES 2026</span>
+      <span class="blink">INSERT COIN</span>
+      <span class="hi">HI-SCORE</span>
+    </header>
+    <section class="carousel" id="carousel"></section>
+  </div>
+
+  <script type="module">
+    import { loadGames, rankingGames } from "/js/games.js";
+    import { mountCarousel } from "/js/carousel.js";
+
+    const games = await loadGames();
+    mountCarousel(document.getElementById("carousel"), rankingGames(games), { linkToRanking: false });
+  </script>
+</body>
+</html>

@@ -1,0 +1,247 @@
+/* =========================================================
+   ゲームセンター（アーケード）風デザイン
+   - 黒背景＋ブラウン管の走査線
+   - 英字は Press Start 2P、日本語は DotGothic16（どちらもドット風フォント）
+   - 色は 黄・赤・水色 の3色を軸にする
+   ========================================================= */
+:root {
+  --bg: #000;
+  --panel: #111;
+  --text: #fff;
+  --muted: #9a9a9a;
+  --yellow: #ffe600;
+  --red: #ff3b3b;
+  --cyan: #00f0ff;
+  --gold: #ffe600;
+  --silver: #dddddd;
+  --bronze: #ff9b3b;
+  --pixel: "Press Start 2P", "DotGothic16", monospace;
+  --dot: "DotGothic16", sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--dot);
+  line-height: 1.6;
+}
+
+/* ブラウン管の走査線（画面全体に薄い横線を重ねる） */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(transparent 0 2px, rgba(0, 0, 0, .35) 2px 4px);
+  z-index: 100;
+}
+
+a { color: inherit; }
+
+img { max-width: 100%; display: block; }
+
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
+
+/* ---------- ヘッダー（1UP / INSERT COIN / HI-SCORE） ---------- */
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 0;
+  font-family: var(--pixel);
+  font-size: 11px;
+}
+.site-header a { text-decoration: none; color: var(--red); }
+.site-header .hi { color: var(--yellow); }
+.blink { color: var(--cyan); animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
+.site-title {
+  font-family: var(--pixel);
+  color: var(--yellow);
+  text-shadow: 4px 4px 0 var(--red);
+  font-size: clamp(18px, 4vw, 30px);
+  line-height: 1.5;
+  text-align: center;
+  margin: 8px 0 24px;
+}
+
+.section-title {
+  font-family: var(--pixel);
+  font-size: 14px;
+  color: var(--cyan);
+  margin: 40px 0 16px;
+}
+
+/* ---------- ゲーム画像（形の違う画像も切れずに収める） ---------- */
+.shot {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  background: #1a1a1a;
+  object-fit: contain;
+}
+
+/* ---------- 注目エリア（ゲーム紹介＋TOP3 の切り替え） ---------- */
+.carousel { position: relative; }
+
+.slide {
+  display: none;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 28px;
+  align-items: center;
+}
+.slide.is-active { display: grid; animation: slide-in .4s steps(4); }
+@keyframes slide-in { from { opacity: 0; transform: translateX(16px); } }
+
+.slide .shot { border: 6px solid #fff; outline: 6px solid var(--red); }
+
+.game-name {
+  font-family: var(--pixel);
+  color: var(--yellow);
+  text-shadow: 3px 3px 0 var(--red);
+  font-size: clamp(16px, 2.6vw, 26px);
+  line-height: 1.5;
+  margin: 0 0 12px;
+  word-break: break-word;
+}
+
+.desc { white-space: pre-line; margin: 0 0 16px; }
+
+.hs-title { font-family: var(--pixel); font-size: 13px; color: var(--cyan); margin: 0 0 8px; }
+
+/* ---------- ランキング表 ---------- */
+.ranking { list-style: none; margin: 0; padding: 0; }
+.ranking li {
+  display: grid;
+  grid-template-columns: 4.5em 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 2px dashed #444;
+}
+.ranking .rank, .ranking .score { font-family: var(--pixel); font-size: 13px; }
+.ranking .name { overflow-wrap: anywhere; }
+.ranking li:nth-child(1) { color: var(--gold); }
+.ranking li:nth-child(2) { color: var(--silver); }
+.ranking li:nth-child(3) { color: var(--bronze); }
+.ranking .empty { color: var(--muted); }
+.ranking li.is-hidden { opacity: .35; text-decoration: line-through; }
+
+.carousel-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
+}
+.dots { display: flex; gap: 8px; }
+.dots button {
+  width: 12px; height: 12px; padding: 0; border: 0;
+  background: #333; cursor: pointer;
+}
+.dots button.is-active { background: var(--yellow); }
+.arrow {
+  font-family: var(--pixel);
+  font-size: 14px;
+  background: none;
+  border: 0;
+  color: var(--text);
+  cursor: pointer;
+  padding: 8px;
+}
+
+/* ---------- ゲーム一覧 ---------- */
+.game-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+  margin-bottom: 48px;
+}
+.card {
+  display: block;
+  border: 4px solid #fff;
+  padding: 8px;
+  background: var(--panel);
+  text-decoration: none;
+  color: var(--text);
+}
+a.card:hover, a.card:focus-visible { border-color: var(--yellow); outline: none; }
+.card h3 { color: var(--yellow); font-weight: 400; font-size: 18px; margin: 10px 0 4px; }
+.card p { margin: 0; font-size: 13px; white-space: pre-line; }
+.badge {
+  display: inline-block;
+  margin-top: 10px;
+  background: var(--red);
+  font-family: var(--pixel);
+  font-size: 9px;
+  padding: 5px 7px;
+}
+
+/* ---------- ボタン・フォーム ---------- */
+.btn {
+  display: inline-block;
+  font-family: var(--pixel);
+  font-size: 12px;
+  line-height: 1.6;
+  padding: 14px 18px;
+  background: var(--red);
+  color: #fff;
+  border: 4px solid #fff;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+}
+.btn:active { transform: translate(2px, 2px); }
+.btn.sub { background: transparent; }
+.btn:disabled { opacity: .5; cursor: wait; }
+
+.field { display: grid; gap: 6px; margin-bottom: 20px; }
+.field label { font-family: var(--pixel); font-size: 11px; color: var(--cyan); }
+.field input {
+  font-family: var(--dot);
+  font-size: 22px;
+  padding: 10px 12px;
+  background: #000;
+  color: var(--yellow);
+  border: 4px solid #fff;
+  width: 100%;
+}
+.field input:focus { outline: 4px solid var(--red); }
+.hint { font-size: 12px; color: var(--muted); }
+.error { color: var(--red); min-height: 1.6em; margin: 0 0 12px; }
+.notice { border: 4px solid var(--cyan); padding: 14px; margin: 0 0 20px; }
+
+.game-head { display: grid; grid-template-columns: 200px 1fr; gap: 20px; align-items: center; margin-bottom: 24px; }
+.game-head .shot { border: 4px solid #fff; }
+
+.back { display: inline-block; margin: 32px 0 48px; font-family: var(--pixel); font-size: 11px; color: var(--muted); }
+
+/* 自分の記録を見つけやすくする「今登録した記録」の印 */
+.ranking li.is-new { animation: blink 0.5s steps(1) 6; }
+
+@media (max-width: 760px) {
+  .slide { grid-template-columns: 1fr; gap: 16px; }
+  .slide .shot { border-width: 4px; outline-width: 4px; }
+  .game-head { grid-template-columns: 1fr; }
+  .site-header { font-size: 9px; }
+}
+
+/* ---------- モニター表示（/display） ---------- */
+body.display { overflow: hidden; }
+body.display .wrap { max-width: none; padding: 0 4vw; }
+body.display .site-header { font-size: 1.2vw; padding: 2vh 0; }
+body.display .slide { gap: 4vw; min-height: 80vh; }
+body.display .game-name { font-size: 2.6vw; }
+body.display .desc { font-size: 1.6vw; }
+body.display .hs-title { font-size: 1.4vw; }
+body.display .ranking li { padding: 1.4vh 0; gap: 2vw; font-size: 2vw; }
+body.display .ranking .rank, body.display .ranking .score { font-size: 1.7vw; }
+body.display .arrow { display: none; }
+body.display .dots button { width: 1vw; height: 1vw; }

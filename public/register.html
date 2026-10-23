@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>スコア登録 | ゲーム開発サークル 文化祭2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="wrap" style="max-width: 560px;">
+    <header class="site-header">
+      <a href="/">1UP</a>
+      <span class="blink">INSERT COIN</span>
+      <span class="hi">HI-SCORE</span>
+    </header>
+
+    <main id="main"></main>
+  </div>
+
+  <script type="module">
+    import { findGame, escapeHtml, formatScore } from "/js/games.js";
+    import { submitScore } from "/js/scores.js";
+    import { checkName, NAME_MAX } from "/js/name-check.js";
+
+    const game = await findGame(new URLSearchParams(location.search).get("game"));
+    const main = document.getElementById("main");
+
+    if (!game) {
+      main.innerHTML = `<p class="notice">ゲームが見つかりませんでした。</p><a class="back" href="/">◀ TOP</a>`;
+    } else {
+      const isTime = game.ranking.format === "time";
+      document.title = `${game.name} スコア登録 | ゲーム開発サークル 文化祭2026`;
+      main.innerHTML = `
+        <h1 class="game-name">${escapeHtml(game.name)}</h1>
+        <p class="hs-title">ENTRY YOUR SCORE</p>
+        <form id="form" novalidate>
+          <div class="field">
+            <label for="name">NAME</label>
+            <input id="name" autocomplete="nickname" maxlength="${NAME_MAX}" required>
+            <span class="hint">ランキングに表示されます（${NAME_MAX}文字まで）。同じ名前の記録は、良いほうのスコアだけが残ります</span>
+          </div>
+          <div class="field">
+            <label for="score">${isTime ? "TIME" : "SCORE"}</label>
+            <input id="score" inputmode="numeric" autocomplete="off" required
+                   placeholder="${isTime ? "0:00" : "0"}">
+            <span class="hint">${isTime
+              ? "数字だけ入力してください。2:12 なら「212」と打つと自動で「:」が入ります"
+              : `ゲーム画面に表示された${escapeHtml(game.ranking.unit ?? "")}数を入力してください`}</span>
+          </div>
+          <p class="error" id="error" role="alert"></p>
+          <button class="btn" id="submit">REGISTER ▶ 登録する</button>
+        </form>
+        <a class="back" href="/ranking?game=${game.id}">◀ RANKING</a>`;
+
+      const nameInput = document.getElementById("name");
+      const scoreInput = document.getElementById("score");
+      const error = document.getElementById("error");
+      const submit = document.getElementById("submit");
+
+      // 入力欄の文字 → 保存する整数（タイムは秒）。不正なら null
+      function parseScore(text) {
+        const digits = text.replace(/\D/g, "");
+        if (!digits) return null;
+        if (!isTime) return Number(digits);
+        const sec = Number(digits.slice(-2));
+        const min = Number(digits.slice(0, -2) || 0);
+        if (sec >= 60) return null;
+        return min * 60 + sec;
+      }
+
+      // タイムは数字を打つたびに「分:秒」に整形する（右から2桁を秒とみなす）
+      scoreInput.addEventListener("input", () => {
+        // タイムは先頭の0を全部消す（「0:02」から1文字消したときに空欄へ戻れるように）
+        const digits = scoreInput.value.replace(/\D/g, "")
+          .replace(isTime ? /^0+/ : /^0+(?=\d)/, "")
+          .slice(0, isTime ? 5 : 9);
+        if (!isTime || !digits) { scoreInput.value = digits; return; }
+        const padded = digits.padStart(3, "0");
+        scoreInput.value = `${Number(padded.slice(0, -2))}:${padded.slice(-2)}`;
+      });
+
+      document.getElementById("form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        error.textContent = "";
+
+        const name = nameInput.value.trim();
+        const nameError = checkName(name);
+        if (nameError) { error.textContent = nameError; return; }
+
+        const score = parseScore(scoreInput.value);
+        if (score === null) {
+          error.textContent = isTime ? "タイムを正しく入力してください（秒は59まで）" : "スコアを入力してください";
+          return;
+        }
+
+        submit.disabled = true;
+        try {
+          const result = await submitScore(game.id, name, score);
+          if (result.status === "not-best") {
+            error.textContent = `「${name}」さんの記録は ${formatScore(game, result.best)} のままです（今回は更新されませんでした）`;
+            submit.disabled = false;
+            return;
+          }
+          // ランキングページで自分の行を点滅させるために、登録した名前を一時的に覚えておく
+          try { sessionStorage.setItem("justRegistered", JSON.stringify({ game: game.id, name })); } catch {}
+          location.href = `/ranking?game=${game.id}`;
+        } catch (err) {
+          console.error(err);
+          error.textContent = "登録に失敗しました。通信状況を確認して、もう一度お試しください";
+          submit.disabled = false;
+        }
+      });
+    }
+  </script>
+</body>
+</html>

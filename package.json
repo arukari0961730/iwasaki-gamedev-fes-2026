@@ -1,0 +1,17 @@
+{
+  "name": "bunkasai-game-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "文化祭ゲーム展示サイト（ゲーム紹介とランキング）",
+  "scripts": {
+    "images": "node scripts/optimize-images.mjs",
+    "qr": "node scripts/make-qr.mjs",
+    "serve": "firebase emulators:start",
+    "deploy": "firebase deploy"
+  },
+  "devDependencies": {
+    "firebase-tools": "^15.34.1",
+    "qrcode": "^1.5.4",
+    "sharp": "^0.35.5"
+  }
+}

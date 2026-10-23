@@ -1,0 +1,225 @@
+[
+  {
+    "id": "warp-room",
+    "name": "WarpRoom!",
+    "image": "images/games/warp-room.webp",
+    "description": "ワープし続けるあなたのやることは5秒耐えるだけ\nギミック満載の部屋から生き残り続けろ！！",
+    "ranking": {
+      "enabled": true,
+      "order": "desc",
+      "format": "points",
+      "unit": "部屋"
+    }
+  },
+  {
+    "id": "dungeon-attack",
+    "name": "Dungeon Attack",
+    "image": "images/games/dungeon-attack.webp",
+    "description": "シューティング＋コマンドのバトル！\nダンジョンの最奥を目指せ！！",
+    "ranking": {
+      "enabled": false
+    }
+  },
+  {
+    "id": "iwafes-ranker",
+    "name": "いわフェスランカー！",
+    "image": "images/games/iwafes-ranker.webp",
+    "description": "連続してくるミニゲームをひたすらこなしていけ！\n繰り返し挑みハイスコアを目指そう！！",
+    "ranking": {
+      "enabled": true,
+      "order": "desc",
+      "format": "points",
+      "unit": "回"
+    }
+  },
+  {
+    "id": "kusoge-next",
+    "name": "くそげーねくすと",
+    "image": "images/games/kusoge-next.webp",
+    "description": "昨年1番人気のくそげーがパワーアップして帰ってきた！\n追加された理不尽なイベントを超えて行け！！",
+    "ranking": {
+      "enabled": true,
+      "order": "desc",
+      "format": "time"
+    }
+  },
+  {
+    "id": "kusoge",
+    "name": "くそげー",
+    "image": "images/games/kusoge.webp",
+    "description": "くそげーねくすとの前作\n実力のみが上に行く手段",
+    "ranking": {
+      "enabled": true,
+      "order": "desc",
+      "format": "time"
+    }
+  },
+  {
+    "id": "command-bomb-kai",
+    "name": "コマンドボム",
+    "image": "images/games/command-bomb-kai.webp",
+    "description": "時間制限タイピングゲーム\n素早く入力し爆弾を巨大化　町を吹っ飛ばせ！！",
+    "ranking": {
+      "enabled": true,
+      "order": "desc",
+      "format": "points",
+      "unit": "点"
+    }
+  },
+  {
+    "id": "last-orders",
+    "name": "LastOrders",
+    "image": "images/games/last-orders.webp",
+    "description": "通販型ホラーゲーム\n新感覚のホラーをあなたに",
+    "ranking": {
+      "enabled": false
+    }
+  },
+  {
+    "id": "isshoku-palette",
+    "name": "hitoiropallet",
+    "image": "images/games/isshoku-palette.webp",
+    "description": "絵の中に1つだけの色を探し出せ\n連続して見つけ出しハイスコアを目指せ",
+    "ranking": {
+      "enabled": true,
+      "order": "desc",
+      "format": "points",
+      "unit": "点"
+    }
+  },
+  {
+    "id": "labyrinth-the-core",
+    "name": "ラビリンス・ザ・コア",
+    "image": "images/games/labyrinth-the-core.webp",
+    "description": "一直線に進み続けるブロックをゴールに導け！\n最短ゴールを目指そう！！",
+    "ranking": {
+      "enabled": false
+    }
+  },
+  {
+    "id": "pinball-onigokko",
+    "name": "爆走ピンボール鬼ごっこ",
+    "image": "images/games/pinball-onigokko.webp",
+    "description": "1VS1の鬼ごっこ\n跳ねまわり相手にぶつかって鬼を押し付けろ！！",
+    "ranking": {
+      "enabled": false
+    }
+  },
+  {
+    "id": "block-stack",
+    "name": "BrockStack",
+    "image": "images/games/block-stack.webp",
+    "description": "ブロックを積んでいくだけ…\nしかし置くブロックは止まってくれない\n正確に落としてブロックを積みTOPを目指せ",
+    "ranking": {
+      "enabled": true,
+      "order": "desc",
+      "format": "points",
+      "unit": "点"
+    }
+  },
+  {
+    "id": "block-breaking",
+    "name": "BrockBreaking",
+    "image": "images/games/block-breaking.webp",
+    "description": "ザシンプルブロック崩し",
+    "ranking": {
+      "enabled": false
+    }
+  },
+  {
+    "id": "crosstiki",
+    "name": "krostiki",
+    "image": "images/games/crosstiki.webp",
+    "description": "奥に引きこもる娘を押し出そう\nシンプルパズルゲーム",
+    "ranking": {
+      "enabled": false
+    }
+  },
+  {
+    "id": "ennichi-meguri",
+    "name": "縁日巡り",
+    "image": "images/games/ennichi-meguri.webp",
+    "description": "所持金3000円\n5つのミニゲームでハイスコアを目指せ！！",
+    "ranking": {
+      "enabled": true,
+      "order": "desc",
+      "format": "points",
+      "unit": "点"
+    }
+  },
+  {
+    "id": "look-and-reflect",
+    "name": "ルック&リフレクト",
+    "image": "images/games/look-and-reflect.webp",
+    "description": "押した場所の十字部分の色が反転していく\nマス目の色を切り替えてそろえよう\nチャレンジャーはエンドレスモードへ",
+    "ranking": {
+      "enabled": false
+    }
+  },
+  {
+    "id": "underside",
+    "name": "UnderSide",
+    "image": "images/games/underside.webp",
+    "description": "賭けスライムバトルに参加しよう！\nスライムのステータスをみてどちらが勝つか予想しよう！！",
+    "ranking": {
+      "enabled": true,
+      "order": "desc",
+      "format": "points",
+      "unit": "Coin"
+    }
+  },
+  {
+    "id": "prism-aether",
+    "name": "PRISM-AETHER",
+    "image": "images/games/prism-aether.webp",
+    "description": "3次元ぷよ〇よ\n4面を活用した立体的な積み上げをしていこう！！",
+    "ranking": {
+      "enabled": true,
+      "order": "desc",
+      "format": "points",
+      "unit": "点"
+    }
+  },
+  {
+    "id": "mono-switch-runner",
+    "name": "Mono Switch Runner",
+    "image": "images/games/mono-switch-runner.webp",
+    "description": "飛んでくる障害物をよけていく\n色を合わせてすり抜け回避！！",
+    "ranking": {
+      "enabled": true,
+      "order": "desc",
+      "format": "points",
+      "unit": "点"
+    }
+  },
+  {
+    "id": "memory-game",
+    "name": "MEMORY GAME",
+    "image": "images/games/memory-game.webp",
+    "description": "コマンドプロンプト神経衰弱",
+    "ranking": {
+      "enabled": false
+    }
+  },
+  {
+    "id": "fatris",
+    "name": "fatris",
+    "image": "images/games/fatris.webp",
+    "description": "コマンドプロンプトテトリス",
+    "ranking": {
+      "enabled": true,
+      "order": "desc",
+      "format": "points",
+      "unit": "点"
+    }
+  },
+  {
+    "id": "decode-core",
+    "name": "DECODE: CORE",
+    "image": "images/games/decode-core.webp",
+    "description": "サイバー空間の迷宮をハッキングし、\nスタミナが尽きる前に鍵を集め脱出する\n3D迷路アクションパズル",
+    "ranking": {
+      "enabled": false
+    }
+  }
+]

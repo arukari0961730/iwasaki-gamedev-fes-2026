@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>管理画面 | ゲーム開発サークル 文化祭2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .admin-table { width: 100%; border-collapse: collapse; }
+    .admin-table th, .admin-table td { border-bottom: 2px dashed #444; padding: 8px 6px; text-align: left; vertical-align: middle; }
+    .admin-table th { font-family: var(--pixel); font-size: 10px; color: var(--cyan); }
+    .admin-table tr.is-hidden td { opacity: .45; }
+    .admin-table input { font-family: var(--dot); font-size: 16px; width: 100%; min-width: 6em; padding: 4px 6px; background: #000; color: var(--yellow); border: 2px solid #fff; }
+    .admin-table .btn { font-size: 9px; padding: 6px 8px; border-width: 2px; }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 16px; }
+    select { font-family: var(--dot); font-size: 18px; padding: 8px; background: #000; color: var(--yellow); border: 4px solid #fff; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="site-header">
+      <a href="/">1UP</a>
+      <span class="hi">ADMIN</span>
+      <button class="arrow" id="logout" hidden>LOGOUT</button>
+    </header>
+
+    <!-- ログイン前 -->
+    <form id="login" style="max-width: 420px;" hidden>
+      <p class="hs-title">ADMIN LOGIN</p>
+      <div class="field"><label for="email">EMAIL</label><input id="email" type="email" autocomplete="username" required></div>
+      <div class="field"><label for="password">PASSWORD</label><input id="password" type="password" autocomplete="current-password" required></div>
+      <p class="error" id="login-error" role="alert"></p>
+      <button class="btn">LOGIN ▶</button>
+    </form>
+
+    <!-- ログイン後 -->
+    <main id="panel" hidden>
+      <div class="toolbar">
+        <select id="game"></select>
+        <span class="hint">非表示にした記録はランキングに出ません（データは残るので、いつでも戻せます）</span>
+      </div>
+      <p class="error" id="panel-error" role="alert"></p>
+      <table class="admin-table">
+        <thead><tr><th>RANK</th><th>NAME</th><th>SCORE</th><th></th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </main>
+  </div>
+
+  <script type="module">
+    import { onAuthStateChanged, signInWithEmailAndPassword, signOut }
+      from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+    import { auth } from "/js/firebase.js";
+    import { loadGames, rankingGames, formatScore, ordinal, escapeHtml } from "/js/games.js";
+    import { watchRanking, updateRecord, renameRecord } from "/js/scores.js";
+    import { checkName } from "/js/name-check.js";
+
+    const $ = (id) => document.getElementById(id);
+    const games = rankingGames(await loadGames());
+    let unsubscribe = null;
+
+    $("game").innerHTML = games.map((g) => `<option value="${g.id}">${escapeHtml(g.name)}</option>`).join("");
+    $("game").addEventListener("change", () => showGame($("game").value));
+
+    // ログイン状態で画面を切り替える。
+    // ※ 画面を隠しているだけでは守れないので、実際の読み書きの制限は firestore.rules で行っている
+    onAuthStateChanged(auth, (user) => {
+      $("login").hidden = !!user;
+      $("panel").hidden = !user;
+      $("logout").hidden = !user;
+      if (user) showGame($("game").value);
+    });
+
+    $("login").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      $("login-error").textContent = "";
+      try {
+        await signInWithEmailAndPassword(auth, $("email").value, $("password").value);
+      } catch {
+        $("login-error").textContent = "ログインできませんでした";
+      }
+    });
+    $("logout").addEventListener("click", () => signOut(auth));
+
+    // スコア入力欄の文字 → 整数（タイムは「分:秒」→ 秒）
+    function parseScore(game, text) {
+      if (game.ranking.format === "time") {
+        const m = text.trim().match(/^(\d+):([0-5]\d)$/);
+        return m ? Number(m[1]) * 60 + Number(m[2]) : null;
+      }
+      return /^\d+$/.test(text.trim()) ? Number(text.trim()) : null;
+    }
+
+    function showGame(gameId) {
+      const game = games.find((g) => g.id === gameId);
+      unsubscribe?.();
+      unsubscribe = watchRanking(game.id, (records) => {
+        $("rows").innerHTML = records.map((r, i) => `
+          <tr class="${r.hidden ? "is-hidden" : ""}" data-name="${escapeHtml(r.name)}">
+            <td>${ordinal(i + 1)}</td>
+            <td><input class="name" value="${escapeHtml(r.name)}"></td>
+            <td><input class="score" value="${formatScore(game, r.score).replace(/[^\d:]/g, "")}"></td>
+            <td>
+              <button class="btn save">SAVE</button>
+              <button class="btn sub toggle">${r.hidden ? "SHOW" : "HIDE"}</button>
+            </td>
+          </tr>`).join("") || `<tr><td colspan="4" class="hint">まだ記録がありません</td></tr>`;
+      }, { includeHidden: true });
+
+      $("rows").onclick = async (e) => {
+        const row = e.target.closest("tr[data-name]");
+        if (!row || !e.target.matches("button")) return;
+        const name = row.dataset.name;
+        $("panel-error").textContent = "";
+        try {
+          if (e.target.classList.contains("toggle")) {
+            await updateRecord(game.id, name, { hidden: !row.classList.contains("is-hidden") });
+            return;
+          }
+          const score = parseScore(game, row.querySelector(".score").value);
+          if (score === null) throw new Error(game.ranking.format === "time" ? "タイムは「分:秒」で入力してください" : "スコアは数字で入力してください");
+          const newName = row.querySelector(".name").value.trim();
+          if (newName !== name) {
+            const nameError = checkName(newName);
+            if (nameError) throw new Error(nameError);
+            await renameRecord(game.id, name, newName);
+          }
+          await updateRecord(game.id, newName, { score });
+        } catch (err) {
+          console.error(err);
+          $("panel-error").textContent = err.message;
+        }
+      };
+    }
+  </script>
+</body>
+</html>
