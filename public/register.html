@@ -43,7 +43,7 @@
               <span>${escapeHtml(g.name)}</span>
             </a>`).join("")}
         </div>
-        <a class="back" href="/">◀ TOP</a>`;
+        <a class="back" href="/"><span class="cursor">▶</span> BACK TO TITLE<small>トップページに戻る</small></a>`;
     } else {
       const isTime = game.ranking.format === "time";
       document.title = `${game.name} スコア登録 | ゲーム開発サークル 文化祭2026`;
@@ -67,7 +67,7 @@
           <p class="error" id="error" role="alert"></p>
           <button class="btn" id="submit">REGISTER ▶ 登録する</button>
         </form>
-        <a class="back" href="/ranking?game=${game.id}">◀ RANKING</a>`;
+        <a class="back" href="/ranking?game=${game.id}"><span class="cursor">▶</span> BACK TO RANKING<small>ランキングに戻る</small></a>`;
 
       const nameInput = document.getElementById("name");
       const scoreInput = document.getElementById("score");

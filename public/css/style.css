@@ -221,7 +221,21 @@ a.card:hover, a.card:focus-visible { border-color: var(--yellow); outline: none;
 .game-head { display: grid; grid-template-columns: 200px 1fr; gap: 20px; align-items: center; margin-bottom: 24px; }
 .game-head .shot { border: 4px solid #fff; }
 
-.back { display: inline-block; margin: 32px 0 48px; font-family: var(--pixel); font-size: 11px; color: var(--muted); }
+/* 「戻る」リンク：アーケードの「タイトルに戻る」風。▶ を点滅させて目立たせる */
+.back {
+  display: block;
+  margin: 36px 0 56px;
+  text-align: center;
+  font-family: var(--pixel);
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--yellow);
+  text-shadow: 3px 3px 0 var(--red);
+  text-decoration: none;
+}
+.back .cursor { animation: blink 1s steps(1) infinite; }
+.back small { display: block; font-family: var(--dot); font-size: 13px; color: var(--muted); text-shadow: none; }
+.back:hover, .back:focus-visible { color: #fff; outline: none; }
 
 /* ---------- スコア登録への導線 ---------- */
 /* トップの大きな登録ボタン */

@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TOPへ戻るボタンの見本</title>
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Press+Start+2P&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
+<style>
+  body::after { display: none; } /* 見本ページでは走査線を消して見やすくする */
+  .label { font-family: var(--dot); color: #aaa; margin: 40px 0 8px; }
+  .label b { color: #fff; font-size: 22px; margin-right: 10px; }
+  .frame { border: 2px dashed #555; padding: 16px; position: relative; overflow: hidden; }
+  .mini-head { display: grid; grid-template-columns: 120px 1fr; gap: 14px; align-items: center; margin-bottom: 12px; }
+  .mini-head .game-name { font-size: 16px; margin: 0; }
+  .ranking li { padding: 4px 0; }
+
+  /* 案A：大きな白枠ボタン（下） */
+  .back-a { display: block; margin: 24px 0 0; padding: 14px; text-align: center; font-family: var(--pixel); font-size: 13px; color: #fff; text-decoration: none; border: 4px solid #fff; }
+  .back-a small { display: block; font-family: var(--dot); font-size: 13px; color: var(--muted); }
+
+  /* 案B：上にも置く（パンくず風） */
+  .back-b { display: inline-block; margin-bottom: 14px; padding: 8px 14px; font-family: var(--pixel); font-size: 11px; color: #000; background: var(--cyan); text-decoration: none; border: 3px solid #fff; }
+
+  /* 案C：画面下に固定（TOP と ENTRY を並べる） */
+  .frame.c { padding-bottom: 80px; }
+  .bar-c { position: absolute; left: 0; right: 0; bottom: 0; display: grid; grid-template-columns: 1fr 1.4fr; }
+  .bar-c a { padding: 14px 8px; text-align: center; font-family: var(--pixel); font-size: 12px; text-decoration: none; }
+  .bar-c .top { background: #222; color: #fff; border-top: 4px solid #fff; }
+  .bar-c .entry { background: var(--yellow); color: #000; border-top: 4px solid var(--red); }
+
+  /* 案D：アーケードの「タイトルに戻る」風 */
+  .back-d { display: block; margin: 28px 0 0; text-align: center; font-family: var(--pixel); font-size: 16px; color: var(--yellow); text-shadow: 3px 3px 0 var(--red); text-decoration: none; line-height: 1.8; }
+  .back-d .cursor { animation: blink 1s steps(1) infinite; }
+  .back-d small { display: block; font-family: var(--dot); font-size: 13px; color: var(--muted); text-shadow: none; }
+</style>
+</head>
+<body>
+<div class="wrap" style="max-width: 760px;">
+
+  <template id="ranking-body">
+    <div class="mini-head">
+      <img class="shot" src="/images/games/iwafes-ranker.webp" alt="">
+      <div>
+        <h2 class="game-name">いわフェスランカー！</h2>
+        <span class="btn" style="font-size:10px;padding:8px 10px;">ENTRY ▶ スコアを登録</span>
+      </div>
+    </div>
+    <p class="hs-title">HIGH SCORE</p>
+    <ol class="ranking">
+      <li><span class="rank">1ST</span><span class="name">たろう</span><span class="score">12回</span></li>
+      <li><span class="rank">2ND</span><span class="name">はなこ</span><span class="score">9回</span></li>
+      <li><span class="rank">3RD</span><span class="name">ゆうき</span><span class="score">7回</span></li>
+    </ol>
+  </template>
+
+  <p class="label"><b>案A</b>下に大きな白枠ボタン（今の位置のまま、大きく・ボタンらしく）</p>
+  <div class="frame" data-body>
+    <a class="back-a" href="#">◀ TOP<small>トップページに戻る</small></a>
+  </div>
+
+  <p class="label"><b>案B</b>上（ゲーム名の前）にも置く。どこまでスクロールしても下にもある</p>
+  <div class="frame" data-body data-top>
+    <a class="back-a" href="#">◀ TOP<small>トップページに戻る</small></a>
+  </div>
+
+  <p class="label"><b>案C</b>スマホの画面下に固定。TOP と ENTRY を並べる（トップページの固定ボタンと同じ形）</p>
+  <div class="frame c" data-body>
+    <div class="bar-c"><a class="top" href="#">◀ TOP</a><a class="entry" href="#">ENTRY ▶ 登録</a></div>
+  </div>
+
+  <p class="label"><b>案D</b>アーケードの「タイトルに戻る」風（文字だけで目立たせる）</p>
+  <div class="frame" data-body>
+    <a class="back-d" href="#"><span class="cursor">▶</span> BACK TO TITLE<small>トップページに戻る</small></a>
+  </div>
+
+</div>
+<script>
+  const body = document.getElementById("ranking-body");
+  document.querySelectorAll("[data-body]").forEach((frame) => {
+    frame.prepend(body.content.cloneNode(true));
+    if (frame.hasAttribute("data-top")) {
+      frame.insertAdjacentHTML("afterbegin", `<a class="back-b" href="#">◀ TOP</a>`);
+    }
+  });
+</script>
+</body>
+</html>
