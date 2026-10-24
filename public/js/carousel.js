@@ -9,9 +9,9 @@ const PAUSE_AFTER_TOUCH = 20_000; // 触ったあと、自動切り替えを止�
 export function mountCarousel(root, games, { linkToRanking = true } = {}) {
   root.innerHTML = `
     <div class="slides">
-      ${games.map((g) => `
+      ${games.map((g, i) => `
         <article class="slide" data-id="${g.id}">
-          <img class="shot" src="${imageUrl(g)}" alt="${escapeHtml(g.name)} のゲーム画面">
+          <img class="shot" src="${imageUrl(g)}" alt="${escapeHtml(g.name)} のゲーム画面" loading="${i === 0 ? "eager" : "lazy"}">
           <div>
             <h2 class="game-name">${escapeHtml(g.name)}</h2>
             <p class="desc">${escapeHtml(g.description)}</p>
@@ -36,6 +36,9 @@ export function mountCarousel(root, games, { linkToRanking = true } = {}) {
     current = (index + slides.length) % slides.length;
     slides.forEach((s, i) => s.classList.toggle("is-active", i === current));
     dots.forEach((d, i) => d.classList.toggle("is-active", i === current));
+    // 画像は表示する直前まで読み込まない（転送量を抑えるため）。
+    // ただし切り替えた瞬間に画像が空にならないよう、次のゲームの画像だけは先に読み込んでおく
+    slides[(current + 1) % slides.length].querySelector("img").loading = "eager";
   }
 
   // 人が操作したら、しばらく自動切り替えを止める（読んでいる途中で変わらないように）

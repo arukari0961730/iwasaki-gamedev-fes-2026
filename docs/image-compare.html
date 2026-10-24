@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>画像の比較</title>
+<style>
+  body { margin: 0; padding: 24px 16px; background: #000; color: #fff; font-family: system-ui, sans-serif; }
+  h1 { font-size: 20px; }
+  .note { color: #aaa; font-size: 14px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 32px 0; max-width: 1400px; }
+  .row h2 { grid-column: 1 / -1; margin: 0; font-size: 16px; color: #ffe600; }
+  figure { margin: 0; }
+  figcaption { font-size: 13px; color: #aaa; margin-bottom: 6px; }
+  img { width: 100%; aspect-ratio: 16 / 9; object-fit: contain; background: #1a1a1a; display: block; border: 4px solid #fff; }
+  @media (max-width: 700px) { .row { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+  <h1>画像の比較（左：今の画像 / 右：軽量版）</h1>
+  <p class="note">サイトの上部の切り替え表示とほぼ同じ大きさで並べています。拡大してみて、文字のつぶれや色のにじみが気にならないか確認してください。</p>
+  <div id="list"></div>
+  <script type="module">
+    const games = await fetch("/public/data/games.json").then((r) => r.json());
+    const kb = async (url) => {
+      const res = await fetch(url);
+      return Math.round((await res.blob()).size / 1024);
+    };
+    for (const g of games) {
+      const before = `/public/images/games/${g.id}.webp`;
+      const after = `/public/images/games-light/${g.id}.webp`;
+      const [b, a] = await Promise.all([kb(before), kb(after)]);
+      document.getElementById("list").insertAdjacentHTML("beforeend", `
+        <section class="row">
+          <h2>${g.name}</h2>
+          <figure><figcaption>今の画像（${b}KB）</figcaption><img src="${before}" alt=""></figure>
+          <figure><figcaption>軽量版（${a}KB）</figcaption><img src="${after}" alt=""></figure>
+        </section>`);
+    }
+  </script>
+</body>
+</html>
