@@ -21,15 +21,29 @@
   </div>
 
   <script type="module">
-    import { findGame, escapeHtml, formatScore } from "/js/games.js";
+    import { findGame, loadGames, rankingGames, imageUrl, escapeHtml, formatScore } from "/js/games.js";
     import { submitScore } from "/js/scores.js";
     import { checkName, NAME_MAX } from "/js/name-check.js";
 
-    const game = await findGame(new URLSearchParams(location.search).get("game"));
+    const gameId = new URLSearchParams(location.search).get("game");
+    const game = await findGame(gameId);
     const main = document.getElementById("main");
 
     if (!game) {
-      main.innerHTML = `<p class="notice">ゲームが見つかりませんでした。</p><a class="back" href="/">◀ TOP</a>`;
+      // ゲームが指定されていないときは、遊んだゲームを選ぶ画面を出す
+      const games = rankingGames(await loadGames());
+      main.innerHTML = `
+        ${gameId ? `<p class="notice">ゲームが見つかりませんでした。下から選んでください。</p>` : ""}
+        <h1 class="hs-title">SELECT GAME</h1>
+        <p>遊んだゲームを選んでください</p>
+        <div class="game-picker">
+          ${games.map((g) => `
+            <a class="pick" href="/register?game=${g.id}">
+              <img src="${imageUrl(g)}" alt="" loading="lazy">
+              <span>${escapeHtml(g.name)}</span>
+            </a>`).join("")}
+        </div>
+        <a class="back" href="/">◀ TOP</a>`;
     } else {
       const isTime = game.ranking.format === "time";
       document.title = `${game.name} スコア登録 | ゲーム開発サークル 文化祭2026`;

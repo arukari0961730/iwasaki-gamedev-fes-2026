@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Press+Start+2P&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/style.css">
 </head>
-<body>
+<body class="has-sticky">
   <div class="wrap">
     <header class="site-header">
       <a href="/">1UP</a>
@@ -20,11 +20,20 @@
 
     <h1 class="site-title">GAMEDEV CIRCLE<br>FES 2026</h1>
 
+    <!-- ランキング登録の入り口。遊んだゲームを選ぶ画面に進む -->
+    <a class="entry-cta" href="/register">
+      <span class="arrow-blink">▶</span> SCORE ENTRY
+      <small>遊んだゲームのスコアを登録する</small>
+    </a>
+
     <section class="carousel" id="carousel" aria-label="ランキングのあるゲーム"></section>
 
     <h2 class="section-title">GAME LIST</h2>
     <section class="game-list" id="game-list"></section>
   </div>
+
+  <!-- スマホでは画面の下にずっと表示しておく -->
+  <a class="sticky-entry" href="/register">▶ SCORE ENTRY　スコア登録</a>
 
   <script type="module">
     import { loadGames, rankingGames, escapeHtml, imageUrl } from "/js/games.js";
@@ -34,17 +43,18 @@
 
     mountCarousel(document.getElementById("carousel"), rankingGames(games));
 
-    // ゲーム一覧：ランキングのあるゲームはカード全体をランキングページへのリンクにする
-    document.getElementById("game-list").innerHTML = games.map((g) => {
-      const body = `
+    // ゲーム一覧：ランキングのあるゲームには「スコア登録」と「ランキング」のボタンを付ける
+    document.getElementById("game-list").innerHTML = games.map((g) => `
+      <div class="card">
         <img class="shot" src="${imageUrl(g)}" alt="${escapeHtml(g.name)} のゲーム画面" loading="lazy">
         <h3>${escapeHtml(g.name)}</h3>
         <p>${escapeHtml(g.description)}</p>
-        ${g.ranking.enabled ? `<span class="badge">RANKING</span>` : ""}`;
-      return g.ranking.enabled
-        ? `<a class="card" href="/ranking?game=${g.id}">${body}</a>`
-        : `<div class="card">${body}</div>`;
-    }).join("");
+        ${g.ranking.enabled ? `
+        <div class="actions">
+          <a class="btn" href="/register?game=${g.id}">ENTRY ▶</a>
+          <a class="btn sub" href="/ranking?game=${g.id}">RANKING</a>
+        </div>` : ""}
+      </div>`).join("");
   </script>
 </body>
 </html>

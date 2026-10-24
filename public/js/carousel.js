@@ -17,7 +17,11 @@ export function mountCarousel(root, games, { linkToRanking = true } = {}) {
             <p class="desc">${escapeHtml(g.description)}</p>
             <p class="hs-title">HIGH SCORE</p>
             <ol class="ranking">${rankingItems(g, [], { min: 3 })}</ol>
-            ${linkToRanking ? `<p><a class="btn sub" href="/ranking?game=${g.id}">ALL RANKING ▶</a></p>` : ""}
+            ${linkToRanking ? `
+            <div class="actions">
+              <a class="btn" href="/register?game=${g.id}">ENTRY ▶ スコア登録</a>
+              <a class="btn sub" href="/ranking?game=${g.id}">ALL RANKING</a>
+            </div>` : ""}
           </div>
         </article>`).join("")}
     </div>
