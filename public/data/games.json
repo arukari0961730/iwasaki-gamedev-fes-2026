@@ -17,7 +17,10 @@
     "image": "images/games/dungeon-attack.webp",
     "description": "シューティング＋コマンドのバトル！\nダンジョンの最奥を目指せ！！",
     "ranking": {
-      "enabled": false
+      "enabled": true,
+      "order": "desc",
+      "format": "points",
+      "unit": "点"
     }
   },
   {
