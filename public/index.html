@@ -51,8 +51,8 @@
         <p>${escapeHtml(g.description)}</p>
         ${g.ranking.enabled ? `
         <div class="actions">
-          <a class="btn" href="/register?game=${g.id}">ENTRY ▶</a>
-          <a class="btn sub" href="/ranking?game=${g.id}">RANKING</a>
+          <a class="btn jp" href="/register?game=${g.id}">スコア登録 ▶</a>
+          <a class="btn jp sub" href="/ranking?game=${g.id}">ランキング</a>
         </div>` : ""}
       </div>`).join("");
   </script>

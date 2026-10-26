@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ゲームカードの見本</title>
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Press+Start+2P&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
+<style>
+  body::after { display: none; } /* 見本では走査線を消して見やすくする */
+  .label { font-family: var(--dot); color: #aaa; margin: 48px 0 12px; }
+  .label b { color: #fff; font-size: 22px; margin-right: 10px; }
+
+  /* ===== 共通：説明文の長さが違ってもボタンの位置をそろえる =====
+     カードを縦方向のフレックスボックスにし、ボタンの並びを margin-top: auto で一番下に押しやる。
+     グリッドの同じ行のカードは同じ高さになるので、ボタンの位置が横一列にそろう */
+  .game-list .card { display: flex; flex-direction: column; }
+  .game-list .card .actions { margin-top: auto; padding-top: 14px; }
+
+  /* 案A：日本語の2ボタン（横並び） */
+  .a .btn { font-family: var(--dot); font-size: 17px; padding: 10px 8px; flex: 1; }
+
+  /* 案B：日本語を大きく、英語を小さく添える */
+  .b .btn { flex: 1; padding: 8px 6px; font-family: var(--dot); font-size: 17px; line-height: 1.3; }
+  .b .btn small { display: block; font-family: var(--pixel); font-size: 8px; opacity: .8; margin-top: 4px; }
+
+  /* 案C：縦に積む（スコア登録を一番目立たせる） */
+  .c .actions { flex-direction: column; gap: 8px; }
+  .c .btn { font-family: var(--dot); font-size: 18px; padding: 10px; }
+  .c .btn.sub { font-size: 15px; padding: 6px; border-width: 2px; }
+
+  /* 案D：アイコン付き（★ と ▶） */
+  .d .btn { flex: 1; font-family: var(--dot); font-size: 16px; padding: 10px 6px; }
+  .d .btn.main { background: var(--yellow); color: #000; border-color: #fff; box-shadow: 4px 4px 0 var(--red); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="label">どの案も、説明文の長さが違っても<b style="font-size:16px;margin:0">ボタンが同じ高さ</b>に並ぶようにしています。</p>
+
+  <p class="label"><b>案A</b>日本語の2ボタン：「スコア登録 ▶」「ランキング」</p>
+  <section class="game-list a" data-variant="a"></section>
+
+  <p class="label"><b>案B</b>日本語を大きく、英語を小さく添える（アーケードの雰囲気を残す）</p>
+  <section class="game-list b" data-variant="b"></section>
+
+  <p class="label"><b>案C</b>縦に積む。「スコア登録」を大きく、「ランキングを見る」は控えめに</p>
+  <section class="game-list c" data-variant="c"></section>
+
+  <p class="label"><b>案D</b>トップの SCORE ENTRY ボタンと同じ黄色で統一＋記号付き</p>
+  <section class="game-list d" data-variant="d"></section>
+
+</div>
+<script type="module">
+  const games = await fetch("/data/games.json").then((r) => r.json());
+  // 説明文の長さが違うゲームを並べる（WarpRoom! は長め、Dungeon Attack は短め）
+  const pick = ["warp-room", "dungeon-attack", "iwafes-ranker"].map((id) => games.find((g) => g.id === id));
+  const buttons = {
+    a: `<a class="btn" href="#">スコア登録 ▶</a><a class="btn sub" href="#">ランキング</a>`,
+    b: `<a class="btn" href="#">スコア登録<small>ENTRY</small></a><a class="btn sub" href="#">ランキング<small>RANKING</small></a>`,
+    c: `<a class="btn" href="#">▶ スコアを登録する</a><a class="btn sub" href="#">ランキングを見る</a>`,
+    d: `<a class="btn main" href="#">▶ スコア登録</a><a class="btn sub" href="#">★ ランキング</a>`,
+  };
+  document.querySelectorAll("[data-variant]").forEach((list) => {
+    list.innerHTML = pick.map((g) => `
+      <div class="card">
+        <img class="shot" src="/${g.image}" alt="">
+        <h3>${g.name}</h3>
+        <p>${g.description}</p>
+        <div class="actions">${buttons[list.dataset.variant]}</div>
+      </div>`).join("");
+  });
+</script>
+</body>
+</html>

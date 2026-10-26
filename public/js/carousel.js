@@ -19,8 +19,8 @@ export function mountCarousel(root, games, { linkToRanking = true } = {}) {
             <ol class="ranking">${rankingItems(g, [], { min: 3 })}</ol>
             ${linkToRanking ? `
             <div class="actions">
-              <a class="btn" href="/register?game=${g.id}">ENTRY ▶ スコア登録</a>
-              <a class="btn sub" href="/ranking?game=${g.id}">ALL RANKING</a>
+              <a class="btn jp" href="/register?game=${g.id}">スコア登録 ▶</a>
+              <a class="btn jp sub" href="/ranking?game=${g.id}">ランキング</a>
             </div>` : ""}
           </div>
         </article>`).join("")}

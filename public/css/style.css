@@ -281,7 +281,18 @@ a.card:hover, a.card:focus-visible { border-color: var(--yellow); outline: none;
 
 /* 切り替え表示・カードのボタンの並び */
 .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
-.card .actions .btn { flex: 1; font-size: 10px; padding: 10px 8px; }
+.actions .btn { flex: 1; }
+
+/* 日本語の表記のボタン（「スコア登録」「ランキング」） */
+.btn.jp { font-family: var(--dot); font-size: 17px; padding: 10px 6px; white-space: nowrap; }
+/* カードの中はボタンの幅が狭いので、文字を少し小さくして1行に収める */
+.card .btn.jp { font-size: 14px; padding: 10px 4px; }
+
+/* 説明文の長さが違ってもボタンの位置をそろえる。
+   カードを縦方向のフレックスボックスにし、ボタンの並びを margin-top: auto で一番下に寄せる。
+   グリッドの同じ行のカードは同じ高さになるので、ボタンが横一列にそろう */
+.card { display: flex; flex-direction: column; }
+.card .actions { margin-top: auto; padding-top: 14px; }
 
 /* ゲームを選んで登録する画面 */
 .game-picker { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; margin: 16px 0; }
