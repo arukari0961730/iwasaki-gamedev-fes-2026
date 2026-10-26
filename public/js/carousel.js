@@ -1,6 +1,7 @@
 // 注目エリア：ランキングのあるゲームを「紹介＋TOP3」で順番に切り替えて見せる。
 // トップページ（/）とモニター表示（/display）の両方で、この同じ部品を使う。
 import { escapeHtml, rankingItems, imageUrl } from "./games.js";
+import { ENTRY_OPEN } from "./config.js";
 import { watchRanking } from "./scores.js";
 
 const INTERVAL = 10_000;      // 自動で次のゲームに切り替えるまでの時間
@@ -19,7 +20,7 @@ export function mountCarousel(root, games, { linkToRanking = true } = {}) {
             <ol class="ranking">${rankingItems(g, [], { min: 3 })}</ol>
             ${linkToRanking ? `
             <div class="actions">
-              <a class="btn jp" href="/register?game=${g.id}">スコア登録 ▶</a>
+              ${ENTRY_OPEN ? `<a class="btn jp" href="/register?game=${g.id}">スコア登録 ▶</a>` : ""}
               <a class="btn jp sub" href="/ranking?game=${g.id}">ランキング</a>
             </div>` : ""}
           </div>

@@ -258,6 +258,9 @@ a.card:hover, a.card:focus-visible { border-color: var(--yellow); outline: none;
 .entry-cta small { display: block; font-family: var(--dot); font-size: 14px; }
 .entry-cta:active { transform: translate(4px, 4px); box-shadow: 4px 4px 0 var(--red); }
 .entry-cta .arrow-blink { animation: blink 1s steps(1) infinite; }
+/* 受付終了の表示（押せないので、色を落として影も消す） */
+.entry-cta.closed { background: #111; color: var(--yellow); box-shadow: none; outline-color: #555; }
+.entry-cta.closed small { color: var(--muted); }
 
 /* スマホでは画面の下に常に登録ボタンを出しておく */
 .sticky-entry { display: none; }

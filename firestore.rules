@@ -12,6 +12,13 @@ service cloud.firestore {
         && request.auth.uid == "x2uvaQZtOub4lIAFoJUhPIX05ev1";
     }
 
+    // スコア登録を受け付けているかどうか。
+    // 文化祭（2026-10-24）が終わったので false にして、ランキングを当日の結果のまま残す。
+    // 受付を再開するときは true にし、public/js/config.js の ENTRY_OPEN も true に戻す
+    function entryOpen() {
+      return false;
+    }
+
     // スコアは整数で、現実的な範囲に収まっていること
     function validScore(score) {
       return score is int && score >= 0 && score <= 999999999;
@@ -29,7 +36,8 @@ service cloud.firestore {
 
       // 新規登録：誰でもできるが、形式が正しいときだけ
       allow create: if isAdmin() || (
-        request.resource.data.keys().hasOnly(["gameId", "name", "score", "achievedAt", "hidden"])
+        entryOpen()
+        && request.resource.data.keys().hasOnly(["gameId", "name", "score", "achievedAt", "hidden"])
         && request.resource.data.keys().hasAll(["gameId", "name", "score", "achievedAt", "hidden"])
         && request.resource.data.gameId == gameId
         && request.resource.data.name == playerName          // 文書のIDと名前が一致していること
@@ -45,7 +53,8 @@ service cloud.firestore {
       // ※ 今のランキング対象ゲームはすべて「大きいほど上位」なので、> で比べている。
       //   「小さいほど上位」のゲームを追加するときは、ここを見直す必要がある。
       allow update: if isAdmin() || (
-        request.resource.data.diff(resource.data).affectedKeys().hasOnly(["score", "achievedAt"])
+        entryOpen()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(["score", "achievedAt"])
         && validScore(request.resource.data.score)
         && request.resource.data.score > resource.data.score
         && request.resource.data.achievedAt == request.time

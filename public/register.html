@@ -24,12 +24,20 @@
     import { findGame, loadGames, rankingGames, imageUrl, escapeHtml, formatScore } from "/js/games.js";
     import { submitScore } from "/js/scores.js";
     import { checkName, NAME_MAX } from "/js/name-check.js";
+    import { ENTRY_OPEN } from "/js/config.js";
 
     const gameId = new URLSearchParams(location.search).get("game");
     const game = await findGame(gameId);
     const main = document.getElementById("main");
 
-    if (!game) {
+    if (!ENTRY_OPEN) {
+      // 受付終了後は、登録フォームの代わりに案内を出す
+      main.innerHTML = `
+        <h1 class="game-name">GAME OVER</h1>
+        <p class="notice">スコア登録の受付は終了しました。<br>ご参加ありがとうございました！</p>
+        ${game ? `<a class="back" href="/ranking?game=${game.id}"><span class="cursor">▶</span> BACK TO RANKING<small>ランキングを見る</small></a>` : ""}
+        <a class="back" href="/"><span class="cursor">▶</span> BACK TO TITLE<small>トップページに戻る</small></a>`;
+    } else if (!game) {
       // ゲームが指定されていないときは、遊んだゲームを選ぶ画面を出す
       const games = rankingGames(await loadGames());
       main.innerHTML = `

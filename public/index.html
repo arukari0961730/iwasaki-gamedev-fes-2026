@@ -21,10 +21,15 @@
     <h1 class="site-title">GAMEDEV CIRCLE<br>FES 2026</h1>
 
     <!-- ランキング登録の入り口。遊んだゲームを選ぶ画面に進む -->
-    <a class="entry-cta" href="/register">
+    <a class="entry-cta" href="/register" data-entry>
       <span class="arrow-blink">▶</span> SCORE ENTRY
       <small>遊んだゲームのスコアを登録する</small>
     </a>
+    <!-- 受付終了後に出す。ENTRY_OPEN（js/config.js）で切り替える -->
+    <p class="entry-cta closed" hidden id="entry-closed">
+      GAME OVER
+      <small>スコア登録の受付は終了しました。ランキングは文化祭当日の最終結果です</small>
+    </p>
 
     <section class="carousel" id="carousel" aria-label="ランキングのあるゲーム"></section>
 
@@ -33,11 +38,18 @@
   </div>
 
   <!-- スマホでは画面の下にずっと表示しておく -->
-  <a class="sticky-entry" href="/register">▶ SCORE ENTRY　スコア登録</a>
+  <a class="sticky-entry" href="/register" data-entry>▶ SCORE ENTRY　スコア登録</a>
 
   <script type="module">
     import { loadGames, rankingGames, escapeHtml, imageUrl } from "/js/games.js";
     import { mountCarousel } from "/js/carousel.js";
+    import { ENTRY_OPEN } from "/js/config.js";
+
+    if (!ENTRY_OPEN) {
+      document.querySelectorAll("[data-entry]").forEach((el) => el.remove());
+      document.body.classList.remove("has-sticky");
+      document.getElementById("entry-closed").hidden = false;
+    }
 
     const games = await loadGames();
 
@@ -51,7 +63,7 @@
         <p>${escapeHtml(g.description)}</p>
         ${g.ranking.enabled ? `
         <div class="actions">
-          <a class="btn jp" href="/register?game=${g.id}">スコア登録 ▶</a>
+          ${ENTRY_OPEN ? `<a class="btn jp" href="/register?game=${g.id}">スコア登録 ▶</a>` : ""}
           <a class="btn jp sub" href="/ranking?game=${g.id}">ランキング</a>
         </div>` : ""}
       </div>`).join("");

@@ -24,6 +24,7 @@
   <script type="module">
     import { findGame, escapeHtml, rankingItems, imageUrl } from "/js/games.js";
     import { watchRanking } from "/js/scores.js";
+    import { ENTRY_OPEN } from "/js/config.js";
 
     const params = new URLSearchParams(location.search);
     const game = await findGame(params.get("game"));
@@ -39,10 +40,10 @@
           <div>
             <h1 class="game-name">${escapeHtml(game.name)}</h1>
             <p class="desc">${escapeHtml(game.description)}</p>
-            <a class="btn jp" href="/register?game=${game.id}">スコア登録 ▶</a>
+            ${ENTRY_OPEN ? `<a class="btn jp" href="/register?game=${game.id}">スコア登録 ▶</a>` : ""}
           </div>
         </div>
-        <p class="hs-title">HIGH SCORE</p>
+        <p class="hs-title">${ENTRY_OPEN ? "HIGH SCORE" : "FINAL RESULT（文化祭当日の最終結果）"}</p>
         <ol class="ranking" id="ranking">${rankingItems(game, [], { min: 3 })}</ol>`;
 
       // 登録直後に飛んできたときは、その名前の行を点滅させる
