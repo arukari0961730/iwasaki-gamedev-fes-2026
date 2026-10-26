@@ -4,3 +4,6 @@ node_modules/
 
 # Claude Code の個人設定
 .claude/settings.local.json
+
+# 元のスクリーンショット（サイト用に変換した画像は public/images にある）
+素材/
