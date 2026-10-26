@@ -21,6 +21,9 @@
 
 * { box-sizing: border-box; }
 
+/* hidden 属性をつけた要素は、display を指定したクラスがついていても必ず隠す */
+[hidden] { display: none !important; }
+
 html { -webkit-text-size-adjust: 100%; }
 
 body {
