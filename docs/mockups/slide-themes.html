@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>スライドのデザイン案</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@500;700&family=BIZ+UDPGothic:wght@400;700&family=DotGothic16&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; padding: 32px 16px 64px; background: #2a2a2a; color: #eee; font-family: "Noto Sans JP", sans-serif; }
+  .theme { max-width: 1400px; margin: 0 auto 64px; }
+  .theme > h2 { font-size: 22px; margin: 0 0 4px; }
+  .theme > p { margin: 0 0 16px; color: #bbb; font-size: 15px; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 900px) { .pair { grid-template-columns: 1fr; } }
+  /* 1920×1080 のスライドを縮小して並べる */
+  .slide { aspect-ratio: 16 / 9; container-type: inline-size; overflow: hidden; position: relative; box-shadow: 0 8px 30px rgba(0,0,0,.5); }
+  .in { position: absolute; inset: 0; padding: 6.6cqw; display: flex; flex-direction: column; gap: 2.4cqw; }
+  .eyebrow { font-size: 1.4cqw; letter-spacing: .1em; font-weight: 700; }
+  .title { font-size: 3.6cqw; font-weight: 700; line-height: 1.25; margin: 0; }
+  .sub { font-size: 2cqw; line-height: 1.5; margin: 0; }
+  .small { font-size: 1.35cqw; }
+  .flow { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: 1.4cqw; align-items: center; margin-top: auto; margin-bottom: auto; }
+  .box { padding: 1.8cqw; border-radius: .8cqw; display: flex; flex-direction: column; gap: .6cqw; }
+  .box b { font-size: 1.9cqw; }
+  .box span { font-size: 1.4cqw; line-height: 1.5; }
+  .arrow { font-size: 2.6cqw; }
+  .shot { width: 44cqw; aspect-ratio: 800/506; object-fit: cover; border-radius: .6cqw; }
+  .cover { display: grid; grid-template-columns: 1fr 1fr; gap: 4cqw; align-items: center; height: 100%; }
+  .logo { font-family: "DotGothic16", sans-serif; }
+
+  /* 案A：白 × ネイビー（一番落ち着いた、企業向けの定番） */
+  .a .slide { background: #FAFAF7; color: #1F2A44; font-family: "Noto Sans JP", sans-serif; }
+  .a .eyebrow { color: #2F6FDE; }
+  .a .sub, .a .small { color: #55607A; }
+  .a .box { background: #FFFFFF; border: .18cqw solid #D5DAE4; }
+  .a .box.hl { border-color: #2F6FDE; background: #EEF3FD; }
+  .a .arrow { color: #2F6FDE; }
+  .a .bar { position: absolute; left: 0; top: 0; bottom: 0; width: .8cqw; background: #2F6FDE; }
+
+  /* 案B：薄いグレー × 赤のアクセント（サイトの赤を少しだけ残す） */
+  .b .slide { background: #F2F1EE; color: #262626; font-family: "Zen Kaku Gothic New", sans-serif; }
+  .b .eyebrow { color: #C8443B; }
+  .b .sub, .b .small { color: #5C5C5C; }
+  .b .box { background: #FFFFFF; border-left: .5cqw solid #262626; border-radius: .2cqw; }
+  .b .box.hl { border-left-color: #C8443B; }
+  .b .arrow { color: #C8443B; }
+  .b .title .mark { background: linear-gradient(transparent 62%, #F4D35E 62%); }
+
+  /* 案C：濃紺 × 黄（暗めの背景だが、サイトより落ち着いた色） */
+  .c .slide { background: #18213A; color: #EEF1F7; font-family: "BIZ UDPGothic", sans-serif; }
+  .c .eyebrow { color: #F2B544; }
+  .c .sub, .c .small { color: #B9C2D6; }
+  .c .box { background: #222D4B; border: .18cqw solid #3A4870; }
+  .c .box.hl { border-color: #F2B544; }
+  .c .arrow { color: #F2B544; }
+</style>
+</head>
+<body>
+
+<template id="cover">
+  <div class="in"><div class="bar"></div>
+    <div class="cover">
+      <div style="display:flex;flex-direction:column;gap:2cqw">
+        <span class="eyebrow">GAMEDEV CIRCLE FES 2026</span>
+        <h1 class="title" style="font-size:4.6cqw">文化祭ゲーム展示サイト</h1>
+        <p class="sub">ゲーム紹介とハイスコアランキング</p>
+        <p class="small" style="margin-top:2cqw">[氏名]<br>[学校名・学科]</p>
+      </div>
+      <img class="shot" src="../presentation/top.jpg" alt="">
+    </div>
+  </div>
+</template>
+
+<template id="content">
+  <div class="in"><div class="bar"></div>
+    <span class="eyebrow">ARCHITECTURE</span>
+    <h2 class="title">構成：<span class="mark">自分のサーバーを持たない</span></h2>
+    <div class="flow">
+      <div class="box"><b>ブラウザ</b><span>来場者のスマホ<br>会場のモニター</span></div>
+      <div class="arrow">→</div>
+      <div class="box hl"><b>Firestore</b><span>スコアを保存<br>セキュリティルールでチェック</span></div>
+      <div class="arrow">→</div>
+      <div class="box"><b>全員の画面に反映</b><span>変更を自動で通知<br>（onSnapshot）</span></div>
+    </div>
+    <p class="small">データの守りは、Google 側で動くセキュリティルールが担当する</p>
+  </div>
+</template>
+
+<section class="theme a">
+  <h2>案A：白 × ネイビー</h2>
+  <p>一番落ち着いた、企業向けの定番。青を1色だけアクセントに使い、左端の細い帯で統一感を出す。文字は Noto Sans JP</p>
+  <div class="pair"><div class="slide" data-t="cover"></div><div class="slide" data-t="content"></div></div>
+</section>
+
+<section class="theme b">
+  <h2>案B：薄いグレー × 赤のアクセント</h2>
+  <p>サイトの赤を少しだけ残して、つながりを感じさせる。大事な言葉に黄色のマーカー。文字は丸みのある Zen Kaku Gothic New</p>
+  <div class="pair"><div class="slide" data-t="cover"></div><div class="slide" data-t="content"></div></div>
+</section>
+
+<section class="theme c">
+  <h2>案C：濃紺 × 黄</h2>
+  <p>暗めの背景でサイトの雰囲気を少し残しつつ、派手さを抑えた色。プロジェクターでも見やすい。文字は読みやすさ重視の BIZ UDPGothic</p>
+  <div class="pair"><div class="slide" data-t="cover"></div><div class="slide" data-t="content"></div></div>
+</section>
+
+<script>
+  document.querySelectorAll(".slide").forEach((s) => {
+    s.appendChild(document.getElementById(s.dataset.t).content.cloneNode(true));
+  });
+</script>
+</body>
+</html>
