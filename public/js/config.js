@@ -4,4 +4,4 @@
 //   false にすると、登録ボタンが消え、登録画面には「受付終了」と表示される。
 //   ※ これは画面の表示を切り替えるだけ。実際に登録を止めているのは firestore.rules。
 //     受付を再開するときは、両方を元に戻す必要がある。
-export const ENTRY_OPEN = false;
+export const ENTRY_OPEN = true;
