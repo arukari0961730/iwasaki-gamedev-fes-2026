@@ -258,40 +258,31 @@
 <p style="font-size:32px;line-height:1.5;color:#262626;background:#F4D35E;padding:20px 32px;border-radius:8px">画面を通さず直接書き込む攻撃を<b>6種類</b>試し、<b>すべて拒否</b>されることを確認</p>
 
 </section>
-</div><div class="frame" id="f-trouble-cache"><section id="trouble-cache" data-transition="fade" style="background:#F2F1EE;color:#262626;font-family:'Zen Kaku Gothic New', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:44px">
-<div style="display:flex;flex-direction:column;gap:16px">
-<p style="font-size:26px;font-weight:700;color:#C8443B;letter-spacing:2px">難しかったところ</p>
-<h2 style="font-size:64px;font-weight:700;line-height:1.15;color:#262626">更新したら、一部のPCだけ画面が空になった</h2>
+</div><div class="frame" id="f-attacks"><section id="attacks" data-transition="fade" style="background:#F2F1EE;color:#262626;font-family:'Zen Kaku Gothic New', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:26px;font-weight:700;color:#C8443B;letter-spacing:2px">工夫 3　実際に試した攻撃</p>
+<h2 style="font-size:64px;font-weight:700;line-height:1.15;color:#262626">画面を通さず、直接書き込んで試した6つの攻撃</h2>
 </div>
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:24px">
-<div style="display:flex;flex-direction:column;gap:14px;background:#FFFFFF;border-top:8px solid #262626;padding:36px">
-<p style="font-size:28px;font-weight:700;color:#C8443B">症状</p>
-<p style="font-size:28px;line-height:1.5;color:#262626">ゲームを追加して公開すると、あるPCだけトップがほぼ空。他の端末は正常</p>
-</div>
-<div style="display:flex;flex-direction:column;gap:14px;background:#FFFFFF;border-top:8px solid #262626;padding:36px">
-<p style="font-size:28px;font-weight:700;color:#C8443B">原因</p>
-<p style="font-size:28px;line-height:1.5;color:#262626">ブラウザが古いJSを1時間キャッシュ。新しいHTMLと食い違いエラーに</p>
-</div>
-<div style="display:flex;flex-direction:column;gap:14px;background:#FFFFFF;border-top:8px solid #C8443B;padding:36px">
-<p style="font-size:28px;font-weight:700;color:#C8443B">対策</p>
-<p style="font-size:28px;line-height:1.5;color:#262626">HTML・JSは毎回確認（no-cache）、画像は保存。種類ごとに分けた</p>
-</div>
-<div style="display:flex;flex-direction:column;gap:14px;background:#FFFFFF;border-top:8px solid #262626;padding:36px">
-<p style="font-size:28px;font-weight:700;color:#C8443B">学び</p>
-<p style="font-size:28px;line-height:1.5;color:#262626">前に開いたことのある端末でも確認する。本番前に直せた</p>
-</div>
-</div>
-<p style="font-size:30px;line-height:1.5;color:#262626;background:#F4D35E;padding:20px 32px;border-radius:8px">Firebase Hosting の初期設定：<b>Cache-Control: max-age=3600</b>（1時間は確認せずに使ってよい）</p>
+<table style="font-family:'Zen Kaku Gothic New', Arial, sans-serif;font-size:28px;color:#262626;width:1664px">
+<tr><th style="width:36%;text-align:left">攻撃</th><th style="width:50%;text-align:left">どう防いだか（セキュリティルール）</th><th style="width:14%;text-align:left">結果</th></tr>
+<tr><td>前より低いスコアで上書き</td><td>上書きは「新しいスコア ＞ 今のスコア」だけ</td><td><b>拒否</b></td></tr>
+<tr><td>他人の記録を非表示にする</td><td>上書きできる項目はスコアと日時だけ</td><td><b>拒否</b></td></tr>
+<tr><td>13文字以上の名前で登録</td><td>名前は1〜12文字だけ受け付ける</td><td><b>拒否</b></td></tr>
+<tr><td>日時を偽装して同点で上位に</td><td>日時はサーバーの時刻だけ受け付ける</td><td><b>拒否</b></td></tr>
+<tr><td>記録を削除する</td><td>削除は管理者の UID だけ</td><td><b>拒否</b></td></tr>
+<tr><td>非表示の記録まで読み込む</td><td>一般の人は、非表示でない記録の一覧だけ</td><td><b>拒否</b></td></tr>
+</table>
+<p style="font-size:28px;line-height:1.5;color:#262626;background:#F4D35E;padding:20px 32px;border-radius:8px">試し方：ブラウザから Firestore に直接命令を送る　→　<b>6つともすべて拒否（permission-denied）</b></p>
 
 </section>
 </div><div class="frame" id="f-result"><section id="result" data-transition="fade" style="background:#F2F1EE;color:#262626;font-family:'Zen Kaku Gothic New', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:36px">
-<h2 style="font-size:64px;font-weight:700;line-height:1.15;color:#262626">結果と、これから</h2>
+<h2 style="font-size:64px;font-weight:700;line-height:1.15;color:#262626">結果と今後の展望</h2>
 <div style="display:flex;align-items:center;gap:40px;background:#FFFFFF;border-left:8px solid #C8443B;padding:24px 40px">
 <p style="font-size:26px;font-weight:700;color:#C8443B;letter-spacing:2px">結果</p>
 <p style="font-size:72px;font-weight:700;line-height:1.1;color:#C8443B">23件</p>
 <p style="font-size:30px;line-height:1.5;color:#5C5C5C">文化祭当日に登録された記録（ランキングのある13本中9本で登録）</p>
 </div>
-<p style="font-size:26px;font-weight:700;color:#C8443B;letter-spacing:2px">これから（すぐできること → 長期）</p>
+<p style="font-size:26px;font-weight:700;color:#C8443B;letter-spacing:2px">今後の展望</p>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
 <div style="display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border-left:8px solid #262626;padding:24px 32px">
 <h3 style="font-size:32px;font-weight:700;color:#262626">ゲームごとの詳しい紹介ページ</h3>
