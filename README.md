@@ -9,7 +9,6 @@
 
 | 項目 | 内容 |
 |---|---|
-| 開発期間 | 1日（文化祭の前日に要件を決めて開発・公開） |
 | 開発人数 | 1人 |
 | 展示ゲーム | 21本（うちランキングあり 13本） |
 | 主な技術 | HTML / CSS / JavaScript、Firebase（Hosting・Firestore・Authentication） |
