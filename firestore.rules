@@ -14,10 +14,10 @@ service cloud.firestore {
 
     // スコア登録を受け付けているかどうか。
     // 文化祭（2026-10-24）のあと 10-26 に false にして締め切った。
-    // 10-28 の発表で実演するため、一時的に true に戻している。終わったら false に戻す。
+    // 10-28 の発表の実演で一時的に true に戻し、11-09 に再び false にした。
     // 切り替えるときは public/js/config.js の ENTRY_OPEN もそろえる
     function entryOpen() {
-      return true;
+      return false;
     }
 
     // スコアは整数で、現実的な範囲に収まっていること
